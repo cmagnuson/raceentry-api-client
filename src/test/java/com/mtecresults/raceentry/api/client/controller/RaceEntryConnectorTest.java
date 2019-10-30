@@ -31,7 +31,7 @@ public class RaceEntryConnectorTest {
         MockInterceptor interceptor = new MockInterceptor();
 
         interceptor.addRule()
-                .get()
+                .post()
                 .respond(resource("login.json"), MEDIATYPE_JSON);
 
         OkHttpClient client = new OkHttpClient.Builder()

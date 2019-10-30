@@ -12,10 +12,7 @@ import com.mtecresults.raceentry.api.client.model.ApiCredentials;
 import com.spencerwi.either.Either;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.*;
 
 import java.io.IOException;
 import java.lang.Error;
@@ -28,20 +25,31 @@ public class RaceEntryConnector {
 
     public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     public static final String BIRTHDATE_FORMAT = "yyyy-MM-dd";
+    public static final String LOGIN_FAILED_MESSAGE = "E-mail and Password Don't Match";
 
     private final OkHttpClient client;
     private final RaceEntryCredentials creds;
 
     public Either<ErrorWithRawJson, ApiCredentials> login() {
-        HttpUrl.Builder urlBuilder = getLoginUrlBuilder(creds);
+        HttpUrl.Builder urlBuilder = HttpUrl.parse("https://www.raceentry.com/softwareapi/login").newBuilder();
+
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("email", creds.getUsername())
+                .addFormDataPart("password", creds.getPassword())
+                .build();
 
         Request request = new Request.Builder()
                 .url(urlBuilder.build())
+                .post(requestBody)
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
             final Gson gson = new GsonBuilder().create();
             Either<ErrorWithRawJson, LoginResponse> loginResponse = tryParse(gson, response, LoginResponse.class);
+            if(loginResponse.isRight() && loginResponse.getRight().getMessage() != null && loginResponse.getRight().getMessage().equals(LOGIN_FAILED_MESSAGE)){
+                return Either.left(new ErrorWithRawJson(null, loginResponse.getRight().toString(), request.url().toString(), new Exception("Login Credentials Not Valid")));
+            }
             return loginResponse.map(errorWithRawJson -> errorWithRawJson, loginResponse1 -> new ApiCredentials(loginResponse1.getTmp_key(), loginResponse1.getTmp_secret()));
         }
         catch (IOException e){
@@ -62,7 +70,7 @@ public class RaceEntryConnector {
             final Gson gson = new GsonBuilder().setDateFormat(BIRTHDATE_FORMAT).create();
             participantsQueryResponseE = tryParse(gson, response, Participant[].class);
 
-            return participantsQueryResponseE.map(errorWithRawJson -> errorWithRawJson, participants -> Arrays.asList(participants));
+            return participantsQueryResponseE.map(errorWithRawJson -> errorWithRawJson, Arrays::asList);
         }
         catch (IOException e){
             return Either.left(new ErrorWithRawJson(null, null, request.url().toString(), e));
@@ -82,7 +90,7 @@ public class RaceEntryConnector {
             final Gson gson = new GsonBuilder().setDateFormat(DATE_FORMAT).create();
             eventsQueryResponseE = tryParse(gson, response, Event[].class);
 
-            return eventsQueryResponseE.map(errorWithRawJson -> errorWithRawJson, events -> Arrays.asList(events));
+            return eventsQueryResponseE.map(errorWithRawJson -> errorWithRawJson, Arrays::asList);
         }
         catch (IOException e){
             return Either.left(new ErrorWithRawJson(null, null, request.url().toString(), e));
@@ -106,13 +114,6 @@ public class RaceEntryConnector {
                 return Either.left(new ErrorWithRawJson(null, body, response.request().url().toString(), null));
             }
         }
-    }
-
-    private static HttpUrl.Builder getLoginUrlBuilder(RaceEntryCredentials creds){
-        HttpUrl.Builder urlBuilder = HttpUrl.parse("https://www.raceentry.com/softwareapi/login").newBuilder();
-        urlBuilder.addQueryParameter("email", creds.getUsername());
-        urlBuilder.addQueryParameter("password", creds.getPassword());
-        return urlBuilder;
     }
 
     private static HttpUrl.Builder getEventParticipantsUrlBuilder(ApiCredentials creds, Long eventId){

@@ -9,4 +9,5 @@ public class LoginResponse {
     String tmp_key;
     String tmp_secret;
     User user;
+    String message;
 }
