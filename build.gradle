@@ -1,0 +1,86 @@
+buildscript {
+    repositories {
+        jcenter()
+        google()
+    }
+    dependencies {
+        // Add dependency for build script,
+        // so we can access Git from our
+        // build script.
+        classpath 'org.ajoberstar:grgit:1.1.0'
+    }
+}
+
+plugins {
+    id 'io.franzbecker.gradle-lombok' version '1.14'
+    id 'java'
+    id 'application'
+}
+
+ext {
+    // Open the Git repository in the current directory.
+    git = org.ajoberstar.grgit.Grgit.open(file('.'))
+
+    // Get commit id of HEAD.
+    revision = git.head().id
+    // Alternative is using abbreviatedId of head() method.
+    // revision = git.head().abbreviatedId
+}
+
+lombok {
+    version = '1.18.4'
+    sha256 = ""
+}
+
+/*
+ * Gets the version name from the latest Git tag
+ */
+def getVersionTag = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'describe', '--tags'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
+mainClassName = 'com.mtecresults.raceentry.api.client.RaceEntryCli'
+
+
+group 'com.mtecresults'
+version = getVersionTag()+"-${git.head().abbreviatedId}"
+
+sourceCompatibility = 1.8
+
+jar {
+    manifest {
+        attributes(
+                "Implementation-Title" : "raceentry-api-client",
+                'Build-Timestamp': new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date()),
+                'Implementation-Version' : version
+        )
+    }
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+    google()
+    maven {
+        url 'http://sourceforge.net/projects/jsi/files/m2_repo'
+    }
+}
+
+dependencies {
+    implementation 'org.slf4j:slf4j-api:1.7.25'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.1'
+    implementation 'info.picocli:picocli:3.9.1'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.spencerwi:Either.java:2.1.0'
+    implementation 'net.sf.supercsv:super-csv:2.4.0'
+
+    runtime 'org.slf4j:slf4j-simple:1.7.25'
+
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'com.github.gmazzo:okhttp-mock:1.2.1'
+}

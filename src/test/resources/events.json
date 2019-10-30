@@ -1,0 +1,38 @@
+[
+  {
+    "event_id": "12345",
+    "name": "Jane's Demo Race",
+    "event_type": "Running/Walking",
+    "url": "janes-demo-race",
+    "description": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><p>This is a demo description returned as HTML.</p></body></html>\n",
+    "last_modified": "2019-06-05 13:31:32",
+    "contact_first_name": "Jane",
+    "contact_last_name": "Director",
+    "contact_email": "janedirector@fakeevent.com",
+    "event_date": "2019-06-12 11:00:00",
+    "street": "100 W 200 N",
+    "city": "Provo",
+    "state": "Utah",
+    "province": null,
+    "country": "USA",
+    "zipcode": "84604"
+  },
+  {
+    "event_id": "123456",
+    "name": "John's Test Race",
+    "event_type": "Triathlon",
+    "url": "johns-test-race",
+    "description": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\">\n<html><body><p>Another example of a test race description</p></body></html>\n",
+    "last_modified": "2019-01-18 12:20:49",
+    "contact_first_name": "John",
+    "contact_last_name": "Doe",
+    "contact_email": "jdoe@notrealemail.com",
+    "event_date": "2020-05-09 12:00:00",
+    "street": "205 E Randolph St",
+    "city": "Chicago",
+    "state": "IL",
+    "province": null,
+    "country": "USA",
+    "zipcode": "60601"
+  }
+]
