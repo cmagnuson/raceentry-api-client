@@ -92,7 +92,7 @@ public class RaceEntryCli implements Callable<Void> {
                     }
                     CsvExporter exporter = new CsvExporter(participants);
                     if (exportFile != null) {
-                        boolean success = exporter.exportToFile(exportFile, overwriteExisting);
+                        boolean success = exporter.exportToFile(exportFile, overwriteExisting, eventId);
                         if (success) {
                             log.info("Download written to file: " + exportFile.getAbsolutePath());
                         }

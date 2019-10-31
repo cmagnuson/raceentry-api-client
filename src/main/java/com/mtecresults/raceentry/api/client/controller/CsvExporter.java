@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Data
@@ -21,7 +22,7 @@ public class CsvExporter {
 
     private final List<Participant> participants;
 
-    public boolean exportToFile(File f, boolean overwriteIfExisting) {
+    public boolean exportToFile(File f, boolean overwriteIfExisting, Long eventId) {
         if(f.exists()){
             if(overwriteIfExisting){
                 f.delete();
@@ -33,6 +34,17 @@ public class CsvExporter {
         }
         try (CsvListWriter writer = new CsvListWriter(new BufferedWriter(new FileWriter(f)),CsvPreference.STANDARD_PREFERENCE)) {
             List<Column> columns = getColumns(participants);
+            columns.add(new Column() {
+                @Override
+                public String getName() {
+                    return "eventId";
+                }
+
+                @Override
+                public Function<Participant, String> getAccessor() {
+                    return p -> eventId.toString();
+                }
+            });
             writer.write(columns.stream().map(Column::getName).collect(Collectors.toList()));
             for(Participant p: participants){
                 writer.write(getRow(columns, p));
