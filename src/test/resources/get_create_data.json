@@ -1,0 +1,424 @@
+{
+  "event_types": [
+    {
+      "id": "1",
+      "name": "Running/Walking"
+    },
+    {
+      "id": "2",
+      "name": "Biking"
+    },
+    {
+      "id": "3",
+      "name": "Triathlon"
+    },
+    {
+      "id": "4",
+      "name": "Duathlon"
+    },
+    {
+      "id": "6",
+      "name": "Virtual Race"
+    },
+    {
+      "id": "7",
+      "name": "OCR"
+    },
+    {
+      "id": "10",
+      "name": "Other"
+    }
+  ],
+  "timezones": [
+    {
+      "id": "1",
+      "name": "America/Denver"
+    },
+    {
+      "id": "2",
+      "name": "America/New_York"
+    },
+    {
+      "id": "3",
+      "name": "America/Chicago"
+    },
+    {
+      "id": "4",
+      "name": "America/Phoenix"
+    },
+    {
+      "id": "5",
+      "name": "America/Los_Angeles"
+    },
+    {
+      "id": "6",
+      "name": "America/Anchorage"
+    },
+    {
+      "id": "7",
+      "name": "Pacific/Honolulu"
+    }
+  ],
+  "states": [
+    {
+      "id": "1",
+      "abbr": "AL",
+      "name": "Alabama",
+      "selected": "0"
+    },
+    {
+      "id": "2",
+      "abbr": "AK",
+      "name": "Alaska",
+      "selected": "0"
+    },
+    {
+      "id": "3",
+      "abbr": "AZ",
+      "name": "Arizona",
+      "selected": "0"
+    },
+    {
+      "id": "4",
+      "abbr": "AR",
+      "name": "Arkansas",
+      "selected": "0"
+    },
+    {
+      "id": "5",
+      "abbr": "CA",
+      "name": "California",
+      "selected": "0"
+    },
+    {
+      "id": "6",
+      "abbr": "CO",
+      "name": "Colorado",
+      "selected": "0"
+    },
+    {
+      "id": "7",
+      "abbr": "CT",
+      "name": "Connecticut",
+      "selected": "0"
+    },
+    {
+      "id": "8",
+      "abbr": "DE",
+      "name": "Delaware",
+      "selected": "0"
+    },
+    {
+      "id": "9",
+      "abbr": "FL",
+      "name": "Florida",
+      "selected": "0"
+    },
+    {
+      "id": "10",
+      "abbr": "GA",
+      "name": "Georgia",
+      "selected": "0"
+    },
+    {
+      "id": "11",
+      "abbr": "HI",
+      "name": "Hawaii",
+      "selected": "0"
+    },
+    {
+      "id": "12",
+      "abbr": "ID",
+      "name": "Idaho",
+      "selected": "0"
+    },
+    {
+      "id": "13",
+      "abbr": "IL",
+      "name": "Illinois",
+      "selected": "0"
+    },
+    {
+      "id": "14",
+      "abbr": "IN",
+      "name": "Indiana",
+      "selected": "0"
+    },
+    {
+      "id": "15",
+      "abbr": "IA",
+      "name": "Iowa",
+      "selected": "0"
+    },
+    {
+      "id": "16",
+      "abbr": "KS",
+      "name": "Kansas",
+      "selected": "0"
+    },
+    {
+      "id": "17",
+      "abbr": "KY",
+      "name": "Kentucky",
+      "selected": "0"
+    },
+    {
+      "id": "18",
+      "abbr": "LA",
+      "name": "Louisiana",
+      "selected": "0"
+    },
+    {
+      "id": "19",
+      "abbr": "ME",
+      "name": "Maine",
+      "selected": "0"
+    },
+    {
+      "id": "20",
+      "abbr": "MD",
+      "name": "Maryland",
+      "selected": "0"
+    },
+    {
+      "id": "21",
+      "abbr": "MA",
+      "name": "Massachusetts",
+      "selected": "0"
+    },
+    {
+      "id": "22",
+      "abbr": "MI",
+      "name": "Michigan",
+      "selected": "0"
+    },
+    {
+      "id": "23",
+      "abbr": "MN",
+      "name": "Minnesota",
+      "selected": "0"
+    },
+    {
+      "id": "24",
+      "abbr": "MS",
+      "name": "Mississippi",
+      "selected": "0"
+    },
+    {
+      "id": "25",
+      "abbr": "MO",
+      "name": "Missouri",
+      "selected": "0"
+    },
+    {
+      "id": "26",
+      "abbr": "MT",
+      "name": "Montana",
+      "selected": "0"
+    },
+    {
+      "id": "27",
+      "abbr": "NE",
+      "name": "Nebraska",
+      "selected": "0"
+    },
+    {
+      "id": "28",
+      "abbr": "NV",
+      "name": "Nevada",
+      "selected": "0"
+    },
+    {
+      "id": "29",
+      "abbr": "NH",
+      "name": "New Hampshire",
+      "selected": "0"
+    },
+    {
+      "id": "30",
+      "abbr": "NJ",
+      "name": "New Jersey",
+      "selected": "0"
+    },
+    {
+      "id": "31",
+      "abbr": "NM",
+      "name": "New Mexico",
+      "selected": "0"
+    },
+    {
+      "id": "32",
+      "abbr": "NY",
+      "name": "New York",
+      "selected": "0"
+    },
+    {
+      "id": "33",
+      "abbr": "NC",
+      "name": "North Carolina",
+      "selected": "0"
+    },
+    {
+      "id": "34",
+      "abbr": "ND",
+      "name": "North Dakota",
+      "selected": "0"
+    },
+    {
+      "id": "35",
+      "abbr": "OH",
+      "name": "Ohio",
+      "selected": "0"
+    },
+    {
+      "id": "36",
+      "abbr": "OK",
+      "name": "Oklahoma",
+      "selected": "0"
+    },
+    {
+      "id": "37",
+      "abbr": "OR",
+      "name": "Oregon",
+      "selected": "0"
+    },
+    {
+      "id": "38",
+      "abbr": "PA",
+      "name": "Pennsylvania",
+      "selected": "0"
+    },
+    {
+      "id": "39",
+      "abbr": "RI",
+      "name": "Rhode Island",
+      "selected": "0"
+    },
+    {
+      "id": "40",
+      "abbr": "SC",
+      "name": "South Carolina",
+      "selected": "0"
+    },
+    {
+      "id": "41",
+      "abbr": "SD",
+      "name": "South Dakota",
+      "selected": "0"
+    },
+    {
+      "id": "42",
+      "abbr": "TN",
+      "name": "Tennessee",
+      "selected": "0"
+    },
+    {
+      "id": "43",
+      "abbr": "TX",
+      "name": "Texas",
+      "selected": "0"
+    },
+    {
+      "id": "44",
+      "abbr": "UT",
+      "name": "Utah",
+      "selected": "0"
+    },
+    {
+      "id": "45",
+      "abbr": "VT",
+      "name": "Vermont",
+      "selected": "0"
+    },
+    {
+      "id": "46",
+      "abbr": "VA",
+      "name": "Virginia",
+      "selected": "0"
+    },
+    {
+      "id": "47",
+      "abbr": "WA",
+      "name": "Washington",
+      "selected": "0"
+    },
+    {
+      "id": "48",
+      "abbr": "WV",
+      "name": "West Virginia",
+      "selected": "0"
+    },
+    {
+      "id": "49",
+      "abbr": "WI",
+      "name": "Wisconsin",
+      "selected": "0"
+    },
+    {
+      "id": "50",
+      "abbr": "WY",
+      "name": "Wyoming",
+      "selected": "0"
+    },
+    {
+      "id": "51",
+      "abbr": "DC",
+      "name": "Washington DC",
+      "selected": "0"
+    },
+    {
+      "id": "52",
+      "abbr": "AS",
+      "name": "American Samoa",
+      "selected": "0"
+    },
+    {
+      "id": "53",
+      "abbr": "GU",
+      "name": "Guam",
+      "selected": "0"
+    },
+    {
+      "id": "54",
+      "abbr": "MP",
+      "name": "Northern Mariana Islands",
+      "selected": "0"
+    },
+    {
+      "id": "55",
+      "abbr": "PR",
+      "name": "Puerto Rico",
+      "selected": "0"
+    },
+    {
+      "id": "56",
+      "abbr": "UM",
+      "name": "U.S. Minor Outlying Islands",
+      "selected": "0"
+    },
+    {
+      "id": "57",
+      "abbr": "VI",
+      "name": "Virgin Islands",
+      "selected": "0"
+    },
+    {
+      "id": "58",
+      "abbr": "AA",
+      "name": "U.S Armed Forces - Americas",
+      "selected": "0"
+    },
+    {
+      "id": "59",
+      "abbr": "AE",
+      "name": "U.S. Armed Forces - Europe",
+      "selected": "0"
+    },
+    {
+      "id": "60",
+      "abbr": "AP",
+      "name": "U.S. Armed Forces - Pacific",
+      "selected": "0"
+    }
+  ]
+}

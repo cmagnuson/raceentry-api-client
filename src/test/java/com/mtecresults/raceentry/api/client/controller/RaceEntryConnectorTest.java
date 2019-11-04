@@ -4,6 +4,7 @@ import com.mtecresults.raceentry.api.client.model.ApiCredentials;
 import com.mtecresults.raceentry.api.client.model.RaceEntryCredentials;
 import com.mtecresults.raceentry.api.client.model.ErrorWithRawJson;
 import com.mtecresults.raceentry.api.client.model.gson.Event;
+import com.mtecresults.raceentry.api.client.model.gson.GetCreateData;
 import com.mtecresults.raceentry.api.client.model.gson.Participant;
 import com.spencerwi.either.Either;
 import okhttp3.OkHttpClient;
@@ -81,5 +82,24 @@ public class RaceEntryConnectorTest {
         Either<ErrorWithRawJson, List<Event>> events = connector.getEvents(new ApiCredentials("key", "secret"));
         assertTrue(events.isRight());
         assertEquals(2, events.getRight().size());
+    }
+
+    @Test
+    public void getCreateData() {
+        MockInterceptor interceptor = new MockInterceptor();
+
+        interceptor.addRule()
+                .get()
+                .anyTimes()
+                .respond(resource("get_create_data.json"), MEDIATYPE_JSON);
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .build();
+
+        RaceEntryConnector connector = new RaceEntryConnector(client, credentials);
+        Either<ErrorWithRawJson, GetCreateData> getCreateData = connector.getCreateData(new ApiCredentials("key", "secret"));
+        assertTrue(getCreateData.isRight());
+        assertEquals(getCreateData.getRight().lookupStateAbbreviation("Wisconsin"), "WI");
     }
 }

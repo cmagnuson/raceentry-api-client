@@ -50,6 +50,9 @@ public class RaceEntryCli implements Callable<Void> {
     @CommandLine.Option(names = {"-f", "--file"}, description = "file to export to")
     private File exportFile;
 
+    @CommandLine.Option(names = {"-s", "--state-full-name"}, description = "export full state name instead of abbreviation")
+    private boolean stateFullName = false;
+
     @CommandLine.Option(names = {"-o", "--overwrite"}, description = "overwrite existing file")
     private boolean overwriteExisting = false;
 
@@ -90,8 +93,17 @@ public class RaceEntryCli implements Callable<Void> {
                             log.info("\t" + participant);
                         });
                     }
-                    CsvExporter exporter = new CsvExporter(participants);
+
+                    if(!stateFullName){
+                        connector.getCreateData(apiCredentials).run(RaceEntryCli::handleError, getCreateData -> {
+                            log.debug("Remapping state full names to abbreviations");
+                            log.debug("GetCreateData: "+getCreateData.toString());
+                            participants.stream().forEach(p -> p.setState(getCreateData.lookupStateAbbreviation(p.getState())));
+                        });
+                    }
+
                     if (exportFile != null) {
+                        CsvExporter exporter = new CsvExporter(participants);
                         boolean success = exporter.exportToFile(exportFile, overwriteExisting, eventId);
                         if (success) {
                             log.info("Download written to file: " + exportFile.getAbsolutePath());

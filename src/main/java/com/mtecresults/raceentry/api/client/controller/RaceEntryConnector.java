@@ -6,6 +6,7 @@ import com.google.gson.JsonParseException;
 import com.mtecresults.raceentry.api.client.model.ErrorWithRawJson;
 import com.mtecresults.raceentry.api.client.model.RaceEntryCredentials;
 import com.mtecresults.raceentry.api.client.model.gson.Event;
+import com.mtecresults.raceentry.api.client.model.gson.GetCreateData;
 import com.mtecresults.raceentry.api.client.model.gson.LoginResponse;
 import com.mtecresults.raceentry.api.client.model.gson.Participant;
 import com.mtecresults.raceentry.api.client.model.ApiCredentials;
@@ -65,19 +66,32 @@ public class RaceEntryConnector {
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
-            Either<ErrorWithRawJson, Participant[]> participantsQueryResponseE;
 
             final Gson gson = new GsonBuilder().setDateFormat(BIRTHDATE_FORMAT).create();
-            participantsQueryResponseE = tryParse(gson, response, Participant[].class);
-
-            return participantsQueryResponseE.map(errorWithRawJson -> errorWithRawJson, Arrays::asList);
+            return tryParse(gson, response, Participant[].class).map(errorWithRawJson -> errorWithRawJson, Arrays::asList);
         }
         catch (IOException e){
             return Either.left(new ErrorWithRawJson(null, null, request.url().toString(), e));
         }
     }
 
-    public Either<ErrorWithRawJson, List<Event>> getEvents(ApiCredentials apiCredentials) {
+    public Either<ErrorWithRawJson, GetCreateData> getCreateData(final ApiCredentials apiCredentials) {
+        HttpUrl.Builder urlBuilder = getGetCreateDataUrlBuilder(apiCredentials);
+
+        Request request = new Request.Builder()
+                .url(urlBuilder.build())
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            final Gson gson = new GsonBuilder().create();
+            return tryParse(gson, response, GetCreateData.class);
+        }
+        catch (IOException e){
+            return Either.left(new ErrorWithRawJson(null, null, request.url().toString(), e));
+        }
+    }
+
+    public Either<ErrorWithRawJson, List<Event>> getEvents(final ApiCredentials apiCredentials) {
         HttpUrl.Builder urlBuilder = getEventsUrlBuilder(apiCredentials);
 
         Request request = new Request.Builder()
@@ -85,12 +99,8 @@ public class RaceEntryConnector {
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
-            Either<ErrorWithRawJson, Event[]> eventsQueryResponseE;
-
             final Gson gson = new GsonBuilder().setDateFormat(DATE_FORMAT).create();
-            eventsQueryResponseE = tryParse(gson, response, Event[].class);
-
-            return eventsQueryResponseE.map(errorWithRawJson -> errorWithRawJson, Arrays::asList);
+            return tryParse(gson, response, Event[].class).map(errorWithRawJson -> errorWithRawJson, Arrays::asList);
         }
         catch (IOException e){
             return Either.left(new ErrorWithRawJson(null, null, request.url().toString(), e));
@@ -116,7 +126,7 @@ public class RaceEntryConnector {
         }
     }
 
-    private static HttpUrl.Builder getEventParticipantsUrlBuilder(ApiCredentials creds, Long eventId){
+    private static HttpUrl.Builder getEventParticipantsUrlBuilder(final ApiCredentials creds, Long eventId){
         HttpUrl.Builder urlBuilder = HttpUrl.parse("https://www.raceentry.com/softwareapi/get_race_participants").newBuilder();
         urlBuilder.addQueryParameter("tmp_key", creds.getKey());
         urlBuilder.addQueryParameter("tmp_secret", creds.getSecret());
@@ -125,8 +135,15 @@ public class RaceEntryConnector {
         return urlBuilder;
     }
 
-    private static HttpUrl.Builder getEventsUrlBuilder(ApiCredentials creds){
+    private static HttpUrl.Builder getEventsUrlBuilder(final ApiCredentials creds){
         HttpUrl.Builder urlBuilder = HttpUrl.parse("https://www.raceentry.com/softwareapi/get_races").newBuilder();
+        urlBuilder.addQueryParameter("tmp_key", creds.getKey());
+        urlBuilder.addQueryParameter("tmp_secret", creds.getSecret());
+        return urlBuilder;
+    }
+
+    private static HttpUrl.Builder getGetCreateDataUrlBuilder(final ApiCredentials creds){
+        HttpUrl.Builder urlBuilder = HttpUrl.parse("https://www.raceentry.com/softwareapi/race/get_create_data").newBuilder();
         urlBuilder.addQueryParameter("tmp_key", creds.getKey());
         urlBuilder.addQueryParameter("tmp_secret", creds.getSecret());
         return urlBuilder;
