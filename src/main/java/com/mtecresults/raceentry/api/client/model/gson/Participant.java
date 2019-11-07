@@ -62,6 +62,7 @@ public class Participant {
 
     public static List<Column> getDefaultColumns() {
         Column[] defaultColumns = new Column[]{
+                new StandardColumn("participantId", participant -> "" + participant.getParticipant_id()),
                 new StandardColumn("categoryId", participant -> "" + participant.getCategory_id()),
                 new StandardColumn("categoryName", participant -> "" + participant.getCategory_name()),
                 new StandardColumn("teamId", participant -> "" + participant.getTeam_id()),
