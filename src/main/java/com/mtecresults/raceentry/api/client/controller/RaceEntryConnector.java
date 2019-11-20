@@ -66,7 +66,6 @@ public class RaceEntryConnector {
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
-
             final Gson gson = new GsonBuilder().setDateFormat(BIRTHDATE_FORMAT).create();
             return tryParse(gson, response, Participant[].class).map(errorWithRawJson -> errorWithRawJson, Arrays::asList);
         }

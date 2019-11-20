@@ -52,9 +52,11 @@ public class Participant {
 
     public List<ResponseColumn> getResponseColumns() {
         List<ResponseColumn> columns = new ArrayList<>();
-        for(QuestionResponse qr: responses){
-            ResponseColumn rc = new ResponseColumn(qr.q, qr.qid);
-            columns.add(rc);
+        if(responses != null){
+            for (QuestionResponse qr : responses) {
+                ResponseColumn rc = new ResponseColumn(qr.q, qr.qid);
+                columns.add(rc);
+            }
         }
         return columns;
     }
