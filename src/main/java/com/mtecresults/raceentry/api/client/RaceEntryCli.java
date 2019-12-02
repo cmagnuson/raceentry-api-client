@@ -6,6 +6,7 @@ import com.mtecresults.raceentry.api.client.controller.RaceEntryConnector;
 import com.mtecresults.raceentry.api.client.model.RaceEntryCredentials;
 import com.mtecresults.raceentry.api.client.model.ErrorWithRawJson;
 import com.mtecresults.raceentry.api.client.model.gson.Event;
+import com.mtecresults.raceentry.api.client.util.TimeFormats;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import picocli.CommandLine;
@@ -87,7 +88,7 @@ public class RaceEntryCli implements Callable<Void> {
                             lastModified.set(p.getLast_modified());
                         }
                     });
-                    log.info("Last Modified Time: " + lastModified);
+                    log.info("Last Modified Time: " + TimeFormats.timestampToFormatted(lastModified.longValue()));
                     if (verbose) {
                         participants.forEach(participant -> {
                             log.info("\t" + participant);

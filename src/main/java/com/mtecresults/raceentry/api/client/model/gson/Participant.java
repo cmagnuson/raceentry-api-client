@@ -9,6 +9,7 @@ import com.mtecresults.raceentry.api.client.controller.RaceEntryConnector;
 import com.mtecresults.raceentry.api.client.model.export.Column;
 import com.mtecresults.raceentry.api.client.model.export.ResponseColumn;
 import com.mtecresults.raceentry.api.client.model.export.StandardColumn;
+import com.mtecresults.raceentry.api.client.util.TimeFormats;
 import lombok.Data;
 
 import java.io.IOException;
@@ -77,35 +78,13 @@ public class Participant {
                 new StandardColumn("province", participant -> "" + participant.getProvince()),
                 new StandardColumn("state", participant -> "" + participant.getState()),
                 new StandardColumn("zipcode", participant -> "" + participant.getZipcode()),
-                new StandardColumn("dob", participant -> "" + dateToFormattedMMDDYYYY(participant.getDob())),
+                new StandardColumn("dob", participant -> "" + TimeFormats.dateToFormattedMMDDYYYY(participant.getDob())),
                 new StandardColumn("sex", participant -> "" + participant.getGender()),
-                new StandardColumn("lastModified", participant -> "" + timestampToFormatted(new Date(participant.getLast_modified()))),
+                new StandardColumn("lastModified", participant -> "" + TimeFormats.timestampToFormatted(new Date(participant.getLast_modified()))),
                 new StandardColumn("phone", participant -> "" + participant.getPhone()),
                 new StandardColumn("checkedIn", participant -> "" + participant.getChecked_in()),
         };
         return Arrays.asList(defaultColumns);
-    }
-
-    private static ThreadLocal<SimpleDateFormat> dateFormatThreadLocal = new ThreadLocal<SimpleDateFormat>(){
-        @Override
-        public SimpleDateFormat get() {
-            return new SimpleDateFormat("MM/dd/YYYY");
-        }
-    };
-
-    private static String dateToFormattedMMDDYYYY(final Date d){
-        return dateFormatThreadLocal.get().format(d);
-    }
-
-    private static ThreadLocal<SimpleDateFormat> timestampFormatThreadLocal = new ThreadLocal<SimpleDateFormat>(){
-        @Override
-        public SimpleDateFormat get() {
-            return new SimpleDateFormat("EEE, MMM d, yyyy hh:mm:ss a z");
-        }
-    };
-
-    private static String timestampToFormatted(final Date d){
-        return timestampFormatThreadLocal.get().format(d);
     }
 
     public class LastModifiedTypeAdaptor extends TypeAdapter<Long> {
