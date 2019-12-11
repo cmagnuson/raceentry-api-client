@@ -15,6 +15,7 @@ plugins {
     id 'io.franzbecker.gradle-lombok' version '1.14'
     id 'java'
     id 'application'
+    id "com.palantir.graal" version "0.6.0-42-g63314bd"
 }
 
 ext {
@@ -30,6 +31,10 @@ ext {
 lombok {
     version = '1.18.4'
     sha256 = ""
+}
+
+configurations {
+    generateConfig
 }
 
 /*
@@ -62,6 +67,26 @@ jar {
     }
 }
 
+graal {
+    graalVersion "19.3.0"
+
+    outputName 'raceEntryApiClient'
+    mainClass mainClassName
+
+    option "-H:ReflectionConfigurationFiles=build/cli-reflect.json"
+    option "-H:+AddAllCharsets"
+    option "--report-unsupported-elements-at-runtime"
+    option "--enable-https"
+}
+
+task(generateGraalReflectionConfig, dependsOn: 'classes', type: JavaExec) {
+    main = 'picocli.codegen.aot.graalvm.ReflectionConfigGenerator'
+    classpath = configurations.generateConfig + sourceSets.main.runtimeClasspath
+    def outputFile = new File(project.buildDir, 'cli-reflect.json')
+    args = ["--output=$outputFile", mainClassName]
+}
+nativeImage.dependsOn generateGraalReflectionConfig
+
 repositories {
     mavenCentral()
     jcenter()
@@ -75,6 +100,7 @@ dependencies {
     implementation 'org.slf4j:slf4j-api:1.7.25'
     implementation 'com.squareup.okhttp3:okhttp:3.12.1'
     implementation 'info.picocli:picocli:3.9.1'
+    generateConfig 'info.picocli:picocli-codegen:3.9.3'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.spencerwi:Either.java:2.1.0'
     implementation 'net.sf.supercsv:super-csv:2.4.0'
