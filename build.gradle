@@ -15,7 +15,7 @@ plugins {
     id 'io.franzbecker.gradle-lombok' version '1.14'
     id 'java'
     id 'application'
-    id "com.palantir.graal" version "0.6.0-42-g63314bd"
+    id "com.palantir.graal" version "0.7.0"
 }
 
 ext {
@@ -68,7 +68,7 @@ jar {
 }
 
 graal {
-    graalVersion "19.3.0"
+    graalVersion "20.1.0"
 
     outputName 'raceEntryApiClient'
     mainClass mainClassName
